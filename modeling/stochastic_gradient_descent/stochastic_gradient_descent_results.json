@@ -1,0 +1,21 @@
+{
+    "Stochastic_Gradient_Descent": {
+        "train_val_split_macro": {
+            "accuracy_macro": 0.5343806811554208,
+            "precision_macro": 0.5639776442553635,
+            "recall_macro": 0.5343806811554207,
+            "f1_macro": 0.47320893923611707
+        },
+        "testing_macro": {
+            "accuracy_macro": 0.7495251465851845,
+            "precision_macro": 0.5740760408808867,
+            "recall_macro": 0.4951850363668878,
+            "f1_macro": 0.43894348590188786
+        },
+        "testing_micro": {
+            "precision_micro": 0.7495251465851845,
+            "recall_micro": 0.7495251465851845,
+            "f1_micro": 0.7495251465851845
+        }
+    }
+}

@@ -85,8 +85,6 @@ def run_workflow(X, y, model, experiment_name, param_grid=None, val_size=0.2, ra
             with mlflow.start_run(run_name="Testing on Unseen Data"):
                 X_test, y_test = test_data
                 y_pred_test = model.predict(X_test)
-                
-                y_proba_test = model.predict_proba(X_test)
 
                 test_metrics_macro = {
                     "accuracy_macro": accuracy_score(y_test, y_pred_test),

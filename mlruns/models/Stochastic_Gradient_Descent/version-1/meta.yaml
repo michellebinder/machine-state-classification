@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1737064495233
+current_stage: None
+description: null
+last_updated_timestamp: 1737064495233
+name: Stochastic_Gradient_Descent
+run_id: de2392a6e8fe40de80a19720530a7fb9
+run_link: null
+source: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/802834005159577977/de2392a6e8fe40de80a19720530a7fb9/artifacts/models/Stochastic_Gradient_Descent
+status: READY
+status_message: null
+storage_location: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/802834005159577977/de2392a6e8fe40de80a19720530a7fb9/artifacts/models/Stochastic_Gradient_Descent
+user_id: null
+version: 1
