@@ -59,7 +59,6 @@ def run_workflow(X, y, model, experiment_name, param_grid=None, val_size=0.2, ra
         X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=val_size, random_state=random_state, stratify=y)
 
        # Step 2: Train and Evaluate on Validation Set
-        # with mlflow.start_run(run_name="Train-Val-Split"):
         print("Training started...")
         model.fit(X_train, y_train)
 
