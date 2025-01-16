@@ -1,8 +1,9 @@
 artifact_uri: file:///Users/bindiair/Desktop/datenanalyse_in_unternehmen/mlruns/198745384262408970/8069e30732f64c02a87f5c233b7d0a2a/artifacts
+deleted_time: 1737063222208
 end_time: 1737040499538
 entry_point_name: ''
 experiment_id: '198745384262408970'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 8069e30732f64c02a87f5c233b7d0a2a
 run_name: Testing on Unseen Data
 run_uuid: 8069e30732f64c02a87f5c233b7d0a2a

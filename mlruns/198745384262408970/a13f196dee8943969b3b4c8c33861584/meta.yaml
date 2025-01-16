@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bindiair/Desktop/datenanalyse_in_unternehmen/mlruns/198745384262408970/a13f196dee8943969b3b4c8c33861584/artifacts
+end_time: 1737063161745
+entry_point_name: ''
+experiment_id: '198745384262408970'
+lifecycle_stage: active
+run_id: a13f196dee8943969b3b4c8c33861584
+run_name: Testing on Unseen Data
+run_uuid: a13f196dee8943969b3b4c8c33861584
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1737063149812
+status: 3
+tags: []
+user_id: bindiair

@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1737063161730
+current_stage: None
+description: null
+last_updated_timestamp: 1737063161730
+name: Random_Forest
+run_id: a13f196dee8943969b3b4c8c33861584
+run_link: null
+source: file:///Users/bindiair/Desktop/datenanalyse_in_unternehmen/mlruns/198745384262408970/a13f196dee8943969b3b4c8c33861584/artifacts/models/Random_Forest
+status: READY
+status_message: null
+storage_location: file:///Users/bindiair/Desktop/datenanalyse_in_unternehmen/mlruns/198745384262408970/a13f196dee8943969b3b4c8c33861584/artifacts/models/Random_Forest
+user_id: null
+version: 1

@@ -26,10 +26,10 @@ def safe_read_csv(filepath):
         return None
 
 print('Loading training data...')
-train_df = safe_read_csv("/Users/bindiair/Desktop/machine-state-classification/data_preparation/processed_datasets_new/training_data_scaled_smote.csv")
+train_df = safe_read_csv("/Users/bindiair/Desktop/machine-state-classifications/data_preparation/processed_datasets/training_data_scaled_smote.csv")
 
 print('Loading testing data...')
-test_df = safe_read_csv("/Users/bindiair/Desktop/machine-state-classification/data_preparation/processed_datasets_new/testing_data_scaled.csv")
+test_df = safe_read_csv("/Users/bindiair/Desktop/machine-state-classifications/data_preparation/processed_datasets/testing_data_scaled.csv")
 
 X = train_df.drop(columns='Label')
 y = train_df['Label']
