@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1737063681909
+current_stage: None
+description: null
+last_updated_timestamp: 1737063681909
+name: Logistic_Regression
+run_id: 69031f42abbc4b40815aaa0b42ba6611
+run_link: null
+source: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/178097506801657826/69031f42abbc4b40815aaa0b42ba6611/artifacts/models/Logistic_Regression
+status: READY
+status_message: null
+storage_location: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/178097506801657826/69031f42abbc4b40815aaa0b42ba6611/artifacts/models/Logistic_Regression
+user_id: null
+version: 1

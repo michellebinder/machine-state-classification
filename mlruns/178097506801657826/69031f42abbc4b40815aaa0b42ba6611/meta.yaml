@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/178097506801657826/69031f42abbc4b40815aaa0b42ba6611/artifacts
+end_time: 1737063681912
+entry_point_name: ''
+experiment_id: '178097506801657826'
+lifecycle_stage: active
+run_id: 69031f42abbc4b40815aaa0b42ba6611
+run_name: Testing on Unseen Data
+run_uuid: 69031f42abbc4b40815aaa0b42ba6611
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1737063675727
+status: 3
+tags: []
+user_id: bindiair

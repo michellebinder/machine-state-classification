@@ -1,0 +1,21 @@
+{
+    "Logistic_Regression": {
+        "train_val_split_macro": {
+            "accuracy_macro": 0.5670899112637308,
+            "precision_macro": 0.604483645999604,
+            "recall_macro": 0.5670899112637309,
+            "f1_macro": 0.5637141390228637
+        },
+        "testing_macro": {
+            "accuracy_macro": 0.769128334296804,
+            "precision_macro": 0.6121010129920793,
+            "recall_macro": 0.493135929516414,
+            "f1_macro": 0.4829258608729506
+        },
+        "testing_micro": {
+            "precision_micro": 0.769128334296804,
+            "recall_micro": 0.769128334296804,
+            "f1_micro": 0.769128334296804
+        }
+    }
+}
