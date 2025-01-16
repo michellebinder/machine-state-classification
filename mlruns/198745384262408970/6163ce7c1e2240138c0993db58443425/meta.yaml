@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bindiair/Desktop/datenanalyse_in_unternehmen/mlruns/198745384262408970/6163ce7c1e2240138c0993db58443425/artifacts
+end_time: 1737040488381
+entry_point_name: ''
+experiment_id: '198745384262408970'
+lifecycle_stage: active
+run_id: 6163ce7c1e2240138c0993db58443425
+run_name: Train-Test-Split
+run_uuid: 6163ce7c1e2240138c0993db58443425
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1737040065692
+status: 3
+tags: []
+user_id: bindiair
