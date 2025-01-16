@@ -1,0 +1,21 @@
+{
+    "Random_Forest": {
+        "train_val_split_macro": {
+            "accuracy_macro": 0.9980184414394678,
+            "precision_macro": 0.9980186245741176,
+            "recall_macro": 0.9980184414394679,
+            "f1_macro": 0.9980184859113072
+        },
+        "testing_macro": {
+            "accuracy_macro": 0.7562608390453381,
+            "precision_macro": 0.47497233401577077,
+            "recall_macro": 0.43913808144156835,
+            "f1_macro": 0.3993990948614082
+        },
+        "testing_micro": {
+            "precision_micro": 0.7562608390453381,
+            "recall_micro": 0.7562608390453381,
+            "f1_micro": 0.7562608390453381
+        }
+    }
+}
