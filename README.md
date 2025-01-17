@@ -86,7 +86,7 @@ pip install mlflow
 
 3. Start the MLflow UI by running the following command:
 ```bash
-mlflow ui --backend-store-uri file:///your-path/machine-state-classification/mlruns
+mlflow ui --backend-store-uri file:///<your-path>/machine-state-classification/mlruns
 ```
 Replace <your-path> with the corresponding path to the mlruns folder in the cloned repository on your computer.
 
