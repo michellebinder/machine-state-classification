@@ -35,9 +35,15 @@ The repository consists of the following four main components:
 
 ---
 
-## Tech Stack
-- Core Python libraries: `pandas`, `numpy`, `sklearn`.
-- **MLflow**: Tracks experiments and organizes results.
+## Prerequisites
+
+To run this project, ensure the following are installed on your system:
+
+- Core Python libraries: `pandas`, `numpy`, `sklearn`, `matplotlib`, `seaborn`.
+- **MLflow**: Used to track experiments and organize results. You can install it using:
+  ```bash
+  pip install mlflow
+  ```
 
 ---
 
