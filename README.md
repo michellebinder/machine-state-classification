@@ -41,8 +41,8 @@ The repository consists of the following four main components:
 
 ---
 
-## Setup / Getting Started
-Follow these steps to get started with the repository:
+## Getting Started
+Follow these steps to run the labeling tool or the MLflow UI locally on your machine.
 
 ### Clone the Repository
 ```bash
@@ -50,9 +50,9 @@ git clone https://github.com/michellebinder/machine-state-classification.git
 ```
 
 
+***
 
-
-### Labeling Tool
+### Run Labeling Tool
 Navigate to the labeling_tool folder:
 ```bash
 cd machine-state-classification/labeling_tool
@@ -63,10 +63,10 @@ python tool.py
 ```
 Alternatively, use your favorite IDE to execute the tool.py file.
 
+***
 
 
-
-### Overview of Models with MLflow
+### Run MLflow UI
 To explore the results of model experiments in MLflow:
 
 1. Install MLflow:
