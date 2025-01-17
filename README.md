@@ -50,20 +50,20 @@ To run this project, ensure the following are installed on your system:
 ## Getting Started
 Follow these steps to run the labeling tool or the MLflow UI locally on your machine.
 
-### Clone the Repository
+---
+
+### Run Labeling Tool
+
+1. Clone the Repository
 ```bash
 git clone https://github.com/michellebinder/machine-state-classification.git
 ```
 
-
-***
-
-### Run Labeling Tool
-Navigate to the labeling_tool folder:
+2. Navigate to the labeling_tool folder:
 ```bash
 cd machine-state-classification/labeling_tool
 ```
-Run the tool:
+3. Run the tool:
 ```bash
 python tool.py
 ```
@@ -71,28 +71,28 @@ Alternatively, use your favorite IDE to execute the tool.py file.
 
 ***
 
-
 ### Run MLflow UI
 To explore the results of model experiments in MLflow:
 
-1. Install MLflow:
+1. Clone the Repository
+```bash
+git clone https://github.com/michellebinder/machine-state-classification.git
+```
+
+2. Install MLflow:
 ```bash
 pip install mlflow
 ```
 
-2. Start the MLflow UI by running the following command:
+3. Start the MLflow UI by running the following command:
 ```bash
 mlflow ui --backend-store-uri file:///your-path/machine-state-classification/mlruns
 ```
-Replace <your-path> with the corresponding path to the mlruns folder in the repository on your computer.
+Replace <your-path> with the corresponding path to the mlruns folder in the cloned repository on your computer.
 
-If desired, you can specify a custom port:
-```bash
-mlflow ui --backend-store-uri file:///your-path/machine-state-classification/mlruns --port 1234
-```
-Open your browser and navigate to:
+4. Open your browser and navigate to:
 http://localhost:5000 (or your specified port).
 
-Now you can view the results for various classifiers.
+You can now view the results for all the classifiers.
 Click on a specific classifier to explore individual runs (e.g., train-test split or testing on unseen data).
 Check detailed metrics and performance visualizations.
