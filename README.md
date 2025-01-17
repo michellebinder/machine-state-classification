@@ -49,6 +49,9 @@ Follow these steps to get started with the repository:
 git clone https://github.com/michellebinder/machine-state-classification.git
 ```
 
+
+
+
 ### Labeling Tool
 Navigate to the labeling_tool folder:
 ```bash
@@ -59,6 +62,9 @@ Run the tool:
 python tool.py
 ```
 Alternatively, use your favorite IDE to execute the tool.py file.
+
+
+
 
 ### Overview of Models with MLflow
 To explore the results of model experiments in MLflow:
