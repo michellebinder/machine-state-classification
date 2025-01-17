@@ -4,7 +4,6 @@ import sys
 import os
 import time
 
-# Damit du deine 'helper'-Funktionen importieren kannst
 sys.path.append("/Users/bindiair/Desktop/machine-state-classification/modeling")
 from helper import save_results_to_file, run_workflow
 
