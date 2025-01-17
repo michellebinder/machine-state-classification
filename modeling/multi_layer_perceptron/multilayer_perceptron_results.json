@@ -1,0 +1,21 @@
+{
+    "Multilayer Perceptron": {
+        "train_val_split_macro": {
+            "accuracy_macro": 0.8252345010256308,
+            "precision_macro": 0.8283024478256585,
+            "recall_macro": 0.8252345010256308,
+            "f1_macro": 0.8259284777811278
+        },
+        "testing_macro": {
+            "accuracy_macro": 0.4772173589891816,
+            "precision_macro": 0.4577404756277282,
+            "recall_macro": 0.37913829063908533,
+            "f1_macro": 0.3434296662046651
+        },
+        "testing_micro": {
+            "precision_micro": 0.4772173589891816,
+            "recall_micro": 0.4772173589891816,
+            "f1_micro": 0.4772173589891816
+        }
+    }
+}

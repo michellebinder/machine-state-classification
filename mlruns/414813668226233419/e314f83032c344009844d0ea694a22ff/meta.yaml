@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/414813668226233419/e314f83032c344009844d0ea694a22ff/artifacts
+end_time: 1737103656091
+entry_point_name: ''
+experiment_id: '414813668226233419'
+lifecycle_stage: active
+run_id: e314f83032c344009844d0ea694a22ff
+run_name: Train-Test-Split
+run_uuid: e314f83032c344009844d0ea694a22ff
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1737101461752
+status: 3
+tags: []
+user_id: bindiair

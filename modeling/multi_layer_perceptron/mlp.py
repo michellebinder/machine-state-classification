@@ -28,21 +28,19 @@ def safe_read_csv(filepath):
         return None
 
 print('Loading training data...')
-train_df = safe_read_csv("/Users/bindiair/Desktop/machine-state-classification/data_preparation/processed_datasets/training_data_scaled_smote.csv")
+train_df = safe_read_csv("/Users/bindiair/Desktop/machine-state-classifications/data_preparation/processed_datasets/training_data_scaled_smote.csv")
 
 print('Loading testing data...')
-test_df = safe_read_csv("/Users/bindiair/Desktop/machine-state-classification/data_preparation/processed_datasets/testing_data_scaled.csv")
+test_df = safe_read_csv("/Users/bindiair/Desktop/machine-state-classifications/data_preparation/processed_datasets/testing_data_scaled.csv")
 
-# Features und Label trennen
 X = train_df.drop(columns='Label')
 y = train_df['Label']
 
 X_test = test_df.drop(columns='Label')
 y_test = test_df['Label']
 
-# Multi-Layer Perceptron Modell definieren
 model = MLPClassifier(
-    hidden_layer_sizes=(32,),
+    hidden_layer_sizes=(32,16),
     activation='relu',           
     solver='adam',               
     max_iter=500,
@@ -50,16 +48,14 @@ model = MLPClassifier(
     random_state=42    
 )
 
-# Workflow starten
 run_workflow(
     X=X,
     y=y,
     model=model,
-    experiment_name="NN",
+    experiment_name="Multilayer Perceptron",
     val_size=0.2,
     random_state=42,
     test_data=(X_test, y_test)
 )
 
-# Ergebnisse speichern
-save_results_to_file(filename='neural_network_results.json')
+save_results_to_file(filename='multilayer_perceptron_results.json')
