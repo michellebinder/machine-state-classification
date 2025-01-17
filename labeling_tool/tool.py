@@ -48,27 +48,25 @@ def darken_color(color, factor=0.7):
     c = mcolors.to_rgb(color)
     return (c[0]*factor, c[1]*factor, c[2]*factor)
 
+# Read and process file 
 csv_file = 'Kombi_2024_11_12_german.csv'
 original_df = pd.read_csv(csv_file, sep=";")
 original_df['Label'] = ''
 original_df['_time'] = pd.to_datetime(original_df['_time'], errors='coerce')
 original_df['_time'] = original_df['_time'].dt.tz_localize(None)
-
 df = preprocess_dataframe(original_df.copy())
 numeric_cols = [col for col in df.columns if col != '_time' and pd.api.types.is_numeric_dtype(df[col])]
 if not numeric_cols:
     raise ValueError("No numeric columns found after preprocessing.")
-
 initial_states = {c: (c == 'AggHoeheIst') for c in numeric_cols}
 
 root.update_idletasks()
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 
-# DPI abrufen (Standard ist 100, kann aber angepasst werden)
 dpi = 100
 
-# Berechne die figsize in Zoll
+# Calculate figure size
 fig_width = screen_width / dpi
 fig_height = (screen_height - 65) / dpi 
 
@@ -95,12 +93,12 @@ update_legend()
 data_min = mdates.date2num(df['_time'].min())
 data_max = mdates.date2num(df['_time'].max())
 
-# Alle 15 Minuten für die Ticks
-ax.xaxis.set_minor_locator(mdates.MinuteLocator(interval=15))  # 15-Minuten-Ticks
+# Set x-ticks every 15 minutes
+ax.xaxis.set_minor_locator(mdates.MinuteLocator(interval=15))  
 
-# Stündliche Beschriftung
-ax.xaxis.set_major_locator(mdates.HourLocator(interval=1))  # Stündliche Hauptticks
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))  # Format für stündliche Beschriftung
+# Set x-tick labels every hour
+ax.xaxis.set_major_locator(mdates.HourLocator(interval=1))  
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M')) 
 
 ax.set_xlim(df['_time'].min(), df['_time'].max())
 
@@ -159,7 +157,6 @@ def no_overlap(x_start, x_end, exclude_rect):
 
 def clamp_no_overlap(x_start, x_end, exclude_rect, original_x_start=None):
     width = x_end - x_start
-    # Clampe an data_min/data_max
     if x_start < data_min:
         x_start = data_min
         x_end = x_start + width
@@ -167,7 +164,6 @@ def clamp_no_overlap(x_start, x_end, exclude_rect, original_x_start=None):
         x_end = data_max
         x_start = x_end - width
 
-    # Prüfe ob overlapfrei
     if no_overlap(x_start, x_end, exclude_rect):
         return (x_start, x_end)
     return None
@@ -208,7 +204,6 @@ def onselect(xmin, xmax):
         messagebox.showwarning("No State", "Please select a state first.")
         return
     
-# Clampe direkt am Datenrand ohne weitere Logik:
     width = xmax - xmin
     if xmin < data_min:
         xmin = data_min
@@ -219,16 +214,16 @@ def onselect(xmin, xmax):
 
     pos = clamp_no_overlap(xmin, xmax, None, None)
     if pos is None:
-         # Overlap beim Erstellen: versuche die Markierung auf die zulässige Grenze zu kürzen
+         # If there is overlap when marking something, cut new mark so that there is no overlap 
         width = xmax - xmin
-        # Finde ersten Overlap
+        # Find overlap
         areas = get_areas_sorted()
         overlapped = False
         for (r2, st2) in areas:
             x0 = r2.get_x()
             w2 = r2.get_width()
             x1 = x0 + w2
-            # Check Overlap:
+            # Check overlap
             if xmin < x1 and xmax > x0:
                 overlapped = True
                 x_start = xmin
@@ -238,13 +233,10 @@ def onselect(xmin, xmax):
                 overlap_right = (xmin < x1 and xmax > x1)
 
                 if overlap_left and not overlap_right:
-                    # Kürze so, dass x_end = x0
                     x_end = x0
                 elif overlap_right and not overlap_left:
-                    # Kürze so, dass x_start = x1
                     x_start = x1
                 else:
-                    # Beidseitiger Overlap? Nimm die nächstliegende Grenze
                     dist_to_x0 = abs(xmax - x0)
                     dist_to_x1 = abs(xmin - x1)
                     if dist_to_x0 < dist_to_x1:
@@ -252,11 +244,8 @@ def onselect(xmin, xmax):
                     else:
                         x_start = x1
 
-                # Prüfe Bounds
                 new_width = x_end - x_start
                 if new_width <= 0:
-                    # Kein Platz
-                    print("No space after trimming.")
                     return
                 if x_start < data_min:
                     diff = data_min - x_start
@@ -269,11 +258,9 @@ def onselect(xmin, xmax):
 
                 new_pos = clamp_no_overlap(x_start, x_end, None, None)
                 if new_pos is None:
-                    print("Even after trimming, no space.")
                     return
                 x_st, x_en = new_pos
                 if x_en <= x_st:
-                    print("No space after trimming and checking again.")
                     return
                 new_area = Rectangle(
                     (x_st, ax.get_ylim()[0]),
@@ -287,12 +274,10 @@ def onselect(xmin, xmax):
                 rebuild_labels()
                 return
         if not overlapped:
-            print("No space to create a new area, even after attempting trimming.")
             return
     else:
         x_start, x_end = pos
         if x_end <= x_start:
-            print("No space after clamp.")
             return
         new_area = Rectangle(
             (x_start, ax.get_ylim()[0]),
@@ -305,42 +290,42 @@ def onselect(xmin, xmax):
         fig.canvas.draw_idle()
         rebuild_labels()
 
-        # Prüfe, ob neben dem neu erstellten Bereich ein anderer Bereich so nah ist,
-        # dass der Abstand < 0.0001 ist. Finde benachbarte Bereiche:
+        # Check whether another area is close enough to the newly created area,
+        # that the distance is < 0.0001. Find neighboring areas:
         threshold = 0.0001
         areas_sorted = get_areas_sorted()
-        # Finde den Index unseres neuen Bereichs
+        # Find the index of other new section
         idx = None
         for i,(r,st) in enumerate(areas_sorted):
             if r is new_area:
                 idx = i
                 break
         if idx is not None:
-            # Prüfe linken Nachbar
+            # Check left neighbour
             if idx > 0:
                 left_r, left_st = areas_sorted[idx-1]
                 left_x0 = left_r.get_x()
                 left_w = left_r.get_width()
                 left_x1 = left_x0 + left_w
-                # Abstand zwischen left_x1 und x_start
+                # Distance between left_x1 and x_start
                 if abs(x_start - left_x1) < threshold:
-                    # Lücke schließen
+                    # Close the gap
                     new_area.set_x(left_x1)
                     new_area.set_width(x_end - left_x1)
-            # Prüfe rechten Nachbar
+            # Check right neighbor
             if idx < len(areas_sorted)-1:
                 right_r, right_st = areas_sorted[idx+1]
                 right_x0 = right_r.get_x()
-                # Abstand zwischen x_end und right_x0
+                # Distance between x_end and right_x0
                 x_start_new = new_area.get_x()
                 x_end_new = x_start_new + new_area.get_width()
                 if abs(right_x0 - x_end_new) < threshold:
-                    # Lücke schließen
+                    # Close the gap
                     new_width = (right_x0 - x_start_new)
                     if new_width > 0:
                         new_area.set_width(new_width)
 
-            # Nach dem Anpassen der Grenzen nochmals Labels neu aufbauen
+            # Rebuild labels again after adjusting the borders
             rebuild_labels()
             fig.canvas.draw_idle()
 
@@ -376,7 +361,6 @@ for i, sb in enumerate(state_buttons):
     b.on_clicked(lambda event, s=sb: on_button_click_state(event, s))
     state_button_objects[sb] = {'button': b}
 
-# 1. Callback-Funktionen definieren
 def zoom_in(event):
     x_min, x_max = ax.get_xlim()
     x_range = x_max - x_min
@@ -399,23 +383,17 @@ def zoom_out(event):
     ax.set_xlim(new_x_min, new_x_max)
     fig.canvas.draw_idle()
 
-# 2. Zoom-Buttons erstellen
-# Definiere die Breite und Höhe der Zoom-Buttons
+# Create and position zoom buttons
 zoom_button_width = 0.12
 zoom_button_height = 0.05
-
-# Positioniere den Zoom-In Button
 ax_zoom_in = plt.axes([0.84, 0.38, zoom_button_width, zoom_button_height])
 zoom_in_button = Button(ax_zoom_in, "+ Zoom In", color='lightgray', hovercolor='gray')
 zoom_in_button.on_clicked(zoom_in)
-
-# Positioniere den Zoom-Out Button
 ax_zoom_out = plt.axes([0.84, 0.32, zoom_button_width, zoom_button_height])
 zoom_out_button = Button(ax_zoom_out, "- Zoom Out", color='lightgray', hovercolor='gray')
 zoom_out_button.on_clicked(zoom_out)
 
 plt.subplots_adjust(left=0.25, right=0.82, top=0.9, bottom=0.15)
-# Toolbar sicherstellen
 manager = plt.get_current_fig_manager()
 if hasattr(manager, 'toolbar'):
     manager.toolbar.update()
@@ -493,14 +471,13 @@ export_button = Button(ax_export, "Export CSV", color='lightgray', hovercolor='g
 
 def export_csv(event):
     if not check_all_labeled():
-        # Fehlende Labels mit '0' auffüllen
+        # Fill missing labels with '0'
         original_df['Label'] = original_df['Label'].replace('', '0')
         messagebox.showwarning(
             "Missing Labels",
             "Some datapoints have not been labeled. These will be exported with '0' as the label."
         )
-    # Exportieren der CSV
-    # Dateinamen anpassen
+    # Set file name
     base_name, ext = os.path.splitext(csv_file)
     export_file_name = f"{base_name}_labeled{ext}"
     original_df.to_csv(export_file_name, sep=';', index=False)
@@ -515,32 +492,27 @@ def on_mouse_press(event):
     if event.button == 1:
         r, st = in_existing_area(event.xdata)
         if event.dblclick:
-            # Doppelklick
+            # Double click
             if r is not None:
-                # Doppelklick auf bestehenden Bereich
                 rebuild_labels()
                 fig.canvas.draw_idle()
             else:
-                # Doppelklick auf freien Bereich
                 if current_state is None:
-                    print("please select a state first")
                     return
 
-                # Finde Nachbarn
+                # Find neighbours
                 x_click = event.xdata
                 areas_sorted = get_areas_sorted()
-                # Bestimme linken und rechten Nachbar:
+                # Find left and right neighbours
                 left_bound = data_min
                 right_bound = data_max
 
-                # Suche Position, wo wir x_click einfügen würden
                 idx = 0
                 for i,(rr,stt) in enumerate(areas_sorted):
                     if rr.get_x() + rr.get_width() < x_click:
                         idx = i+1
 
                 if idx > 0:
-                    # linker Nachbar vorhanden
                     left_r, left_st = areas_sorted[idx-1]
                     left_x0 = left_r.get_x()
                     left_w = left_r.get_width()
@@ -548,16 +520,12 @@ def on_mouse_press(event):
                     left_bound = left_x1
 
                 if idx < len(areas_sorted):
-                    # rechter Nachbar vorhanden
                     right_r, right_st = areas_sorted[idx]
                     right_x0 = right_r.get_x()
-                    # rechter Nachbar beginnt bei right_x0
                     right_bound = right_x0
 
-                # Erzeuge neuen Bereich zwischen left_bound und right_bound
+                # Create new mark between left neighbour and right neighbour
                 if right_bound <= left_bound:
-                    # Kein Platz
-                    print("No space to create a new area on double-click.")
                     return
 
                 new_area = Rectangle(
@@ -571,9 +539,8 @@ def on_mouse_press(event):
                 rebuild_labels()
                 fig.canvas.draw_idle()
         else:
-            # Einzelklick
+            # Single click
             if r is not None:
-                # Klick auf bestehenden Bereich
                 if delete_mode:
                     remove_area(r)
                     span.active = (current_state is not None and not dragging and not delete_mode)
@@ -585,12 +552,10 @@ def on_mouse_press(event):
                     rect_original_width = r.get_width()
                     span.active = False
             else:
-                # Klick auf freien Bereich
                 if delete_mode:
                     span.active = False
                 else:
                     if current_state is None:
-                        print("please select a state first")
                         span.active = False
                     else:
                         if not dragging:
@@ -598,7 +563,6 @@ def on_mouse_press(event):
 
 def get_areas_sorted():
     return sorted(selected_areas, key=lambda r: r[0].get_x())
-
 
 def on_mouse_move(event):
     if event.inaxes != ax:
@@ -611,17 +575,14 @@ def on_mouse_move(event):
         pos = clamp_no_overlap(new_x_start, x_end, dragged_rect, rect_original_x)
         if pos is not None:
             x_start_clamped, x_end_clamped = pos
-            # Nur aktualisieren, wenn der Bereich gültig ist:
             if x_end_clamped > x_start_clamped:
                 dragged_rect.set_x(x_start_clamped)
                 dragged_rect.set_width(x_end_clamped - x_start_clamped)
                 rebuild_labels()
                 fig.canvas.draw_idle()
             else:
-                # Kein Verschieben, da ungültig
                 pass
         else:
-            # Kein overlapfreier Platz -> Bereich nicht weiter verschieben.
             pass
 
 def on_mouse_release(event):
@@ -632,7 +593,6 @@ def on_mouse_release(event):
             dragged_rect = None
         if current_state is not None and not delete_mode:
             span.active = True
-
 
 fig.canvas.mpl_connect('button_press_event', on_mouse_press)
 fig.canvas.mpl_connect('motion_notify_event', on_mouse_move)
