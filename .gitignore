@@ -1,2 +1,4 @@
 .DS_Store
 mlruns/
+*.pyc
+__pycache__/
