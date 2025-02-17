@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1739791701829
+current_stage: None
+description: null
+last_updated_timestamp: 1739791701829
+name: Random_Forest_Imbalanced
+run_id: d6ba450d8af249519c0608f1d28cf023
+run_link: null
+source: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/199268529157742759/d6ba450d8af249519c0608f1d28cf023/artifacts/models/Random_Forest_Imbalanced
+status: READY
+status_message: null
+storage_location: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/199268529157742759/d6ba450d8af249519c0608f1d28cf023/artifacts/models/Random_Forest_Imbalanced
+user_id: null
+version: 1

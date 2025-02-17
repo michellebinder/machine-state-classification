@@ -1,0 +1,22 @@
+{
+    "Random_Forest_Imbalanced": {
+        "validation": {
+            "accuracy": 0.9965934384980161,
+            "precision_macro": 0.9916553222427263,
+            "recall_macro": 0.9903778766911984,
+            "f1_macro": 0.9910089578659088,
+            "precision_micro": null,
+            "recall_micro": null,
+            "f1_micro": null
+        },
+        "test": {
+            "accuracy": 0.7266341151209844,
+            "precision_macro": 0.49560027379929833,
+            "recall_macro": 0.47448211920900324,
+            "f1_macro": 0.44243579355448187,
+            "precision_micro": null,
+            "recall_micro": null,
+            "f1_micro": null
+        }
+    }
+}
