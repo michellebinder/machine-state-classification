@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1739790785833
+current_stage: None
+description: null
+last_updated_timestamp: 1739790785833
+name: Logistic_Regression_Imbalanced
+run_id: deed8ed2728c415d98956df43975722b
+run_link: null
+source: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/899724194075592181/deed8ed2728c415d98956df43975722b/artifacts/models/Logistic_Regression_Imbalanced
+status: READY
+status_message: null
+storage_location: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/899724194075592181/deed8ed2728c415d98956df43975722b/artifacts/models/Logistic_Regression_Imbalanced
+user_id: null
+version: 1
