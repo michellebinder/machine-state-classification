@@ -1,0 +1,22 @@
+{
+    "Logistic_Regression_Imbalanced": {
+        "validation": {
+            "accuracy": 0.6488531888125424,
+            "precision_macro": 0.22813434888042597,
+            "recall_macro": 0.14413100435867313,
+            "f1_macro": 0.11493555827453193,
+            "precision_micro": null,
+            "recall_micro": null,
+            "f1_micro": null
+        },
+        "test": {
+            "accuracy": 0.6821166074820382,
+            "precision_macro": 0.23896912366281714,
+            "recall_macro": 0.19310354342016275,
+            "f1_macro": 0.19073775979914406,
+            "precision_micro": null,
+            "recall_micro": null,
+            "f1_micro": null
+        }
+    }
+}
