@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1739792712367
+current_stage: None
+description: null
+last_updated_timestamp: 1739792712367
+name: Stochastic_Gradient_Descent_Imbalanced
+run_id: a3cbc2358eae4a119ab57fa0b9b35fd9
+run_link: null
+source: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/279810751058953548/a3cbc2358eae4a119ab57fa0b9b35fd9/artifacts/models/Stochastic_Gradient_Descent_Imbalanced
+status: READY
+status_message: null
+storage_location: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/279810751058953548/a3cbc2358eae4a119ab57fa0b9b35fd9/artifacts/models/Stochastic_Gradient_Descent_Imbalanced
+user_id: null
+version: 1

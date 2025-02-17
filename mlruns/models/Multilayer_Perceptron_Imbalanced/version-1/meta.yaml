@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1739792333043
+current_stage: None
+description: null
+last_updated_timestamp: 1739792333043
+name: Multilayer_Perceptron_Imbalanced
+run_id: 005217d74efb401a803bfbea9f8f2211
+run_link: null
+source: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/356730013570505003/005217d74efb401a803bfbea9f8f2211/artifacts/models/Multilayer_Perceptron_Imbalanced
+status: READY
+status_message: null
+storage_location: file:///Users/bindiair/Desktop/machine-state-classification/mlruns/356730013570505003/005217d74efb401a803bfbea9f8f2211/artifacts/models/Multilayer_Perceptron_Imbalanced
+user_id: null
+version: 1
