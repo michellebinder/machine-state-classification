@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import json
 from sklearn.model_selection import StratifiedKFold, cross_val_predict, train_test_split, GridSearchCV
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+from sklearn.metrics import confusion_matrix, classification_report
 import joblib
 import mlflow
 import mlflow.sklearn
@@ -40,10 +40,14 @@ def plot_confusion_matrix(cm, experiment_name):
 # ------------------------------
 # Workflow function
 # ------------------------------
-def run_workflow(X, y, model, experiment_name, param_grid=None, val_size=0.2, random_state=42, test_data=None):
+def run_workflow(X, y, model, experiment_name, param_grid=None, val_size=0.2, random_state=42, test_data=None, log_classification_report=True):
     
     global global_results
     classifier_results = {}
+
+    # -----------------------------
+    # 1) Train-Val Split Run
+    # -----------------------------
 
     # Initialize mlflow experiment
     mlflow.set_experiment(experiment_name)
@@ -55,72 +59,131 @@ def run_workflow(X, y, model, experiment_name, param_grid=None, val_size=0.2, ra
         mlflow.log_param("model_type", type(model).__name__)
         mlflow.log_param("val_size", val_size)
 
-        # Step 1: Train-Test Split 
+        # Split data
         X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=val_size, random_state=random_state, stratify=y)
 
-       # Step 2: Train and Evaluate on Validation Set
+       # Model training
         print("Training started...")
         model.fit(X_train, y_train)
 
+        # Validation
         print("Validation started...")
         y_pred_val = model.predict(X_val)
 
-        val_metrics_macro = {
-            "accuracy_macro": accuracy_score(y_val, y_pred_val),
-            "precision_macro": precision_score(y_val, y_pred_val, average="macro"),
-            "recall_macro": recall_score(y_val, y_pred_val, average="macro"),
-            "f1_macro": f1_score(y_val, y_pred_val, average="macro")
+        # classification_report for validation
+        report_val_dict = classification_report(y_val, y_pred_val, output_dict=True)
+        report_val_text = classification_report(y_val, y_pred_val)
+
+        # Log text report as an artifact
+        with open("classification_report_val.txt", "w") as f:
+            f.write(report_val_text)
+        mlflow.log_artifact("classification_report_val.txt")
+
+        # Log metrics from the dictionary
+        # Accuracy
+        mlflow.log_metric("val_accuracy", report_val_dict["accuracy"])
+
+        # Macro metrics
+        mlflow.log_metric("val_precision_macro", report_val_dict["macro avg"]["precision"])
+        mlflow.log_metric("val_recall_macro", report_val_dict["macro avg"]["recall"])
+        mlflow.log_metric("val_f1_macro", report_val_dict["macro avg"]["f1-score"])
+
+        # Micro metrics 
+        if "micro avg" in report_val_dict:
+            mlflow.log_metric("val_precision_micro", report_val_dict["micro avg"]["precision"])
+            mlflow.log_metric("val_recall_micro", report_val_dict["micro avg"]["recall"])
+            mlflow.log_metric("val_f1_micro", report_val_dict["micro avg"]["f1-score"])
+
+        # Per-class metrics
+        for label, metrics in report_val_dict.items():
+            # Typically, classes are labeled as strings ("0", "1", etc.) in the report
+            if label.isdigit():
+                mlflow.log_metric(f"val_precision_class_{label}", metrics["precision"])
+                mlflow.log_metric(f"val_recall_class_{label}", metrics["recall"])
+                mlflow.log_metric(f"val_f1_class_{label}", metrics["f1-score"])
+
+        # Store metrics in classifier_results
+        classifier_results["validation"] = {
+            "accuracy": report_val_dict["accuracy"],
+            "precision_macro": report_val_dict["macro avg"]["precision"],
+            "recall_macro": report_val_dict["macro avg"]["recall"],
+            "f1_macro": report_val_dict["macro avg"]["f1-score"],
+            "precision_micro": report_val_dict["micro avg"]["precision"] if "micro avg" in report_val_dict else None,
+            "recall_micro": report_val_dict["micro avg"]["recall"] if "micro avg" in report_val_dict else None,
+            "f1_micro": report_val_dict["micro avg"]["f1-score"] if "micro avg" in report_val_dict else None
         }
-        classifier_results["train_val_split_macro"] = val_metrics_macro
 
-        for metric, value in val_metrics_macro.items():
-            mlflow.log_metric(f"val_{metric}", value)
-
-        # End the Train-Val-Split Run
+        # End of Train-Val-Split run
         mlflow.end_run()
 
-        # Step 3: Test on Unseen Data
-        print("Testing on unseen data started...")
+        # -----------------------------
+        # 2) Test Run
+        # -----------------------------
         if test_data is not None:
+            print("Testing on unseen data started...")
             with mlflow.start_run(run_name="Testing on Unseen Data"):
                 X_test, y_test = test_data
                 y_pred_test = model.predict(X_test)
 
-                test_metrics_macro = {
-                    "accuracy_macro": accuracy_score(y_test, y_pred_test),
-                    "precision_macro": precision_score(y_test, y_pred_test, average="macro"),
-                    "recall_macro": recall_score(y_test, y_pred_test, average="macro"),
-                    "f1_macro": f1_score(y_test, y_pred_test, average="macro")
+                # classification_report for test
+                report_test_dict = classification_report(y_test, y_pred_test, output_dict=True)
+                report_test_text = classification_report(y_test, y_pred_test)
+
+                # Log text report as an artifact
+                with open("classification_report_test.txt", "w") as f:
+                    f.write(report_test_text)
+                mlflow.log_artifact("classification_report_test.txt")
+
+                # Log metrics from the dictionary
+                # Accuracy
+                mlflow.log_metric("test_accuracy", report_test_dict["accuracy"])
+
+                # Macro
+                mlflow.log_metric("test_precision_macro", report_test_dict["macro avg"]["precision"])
+                mlflow.log_metric("test_recall_macro", report_test_dict["macro avg"]["recall"])
+                mlflow.log_metric("test_f1_macro", report_test_dict["macro avg"]["f1-score"])
+
+                # Micro 
+                if "micro avg" in report_test_dict:
+                    mlflow.log_metric("test_precision_micro", report_test_dict["micro avg"]["precision"])
+                    mlflow.log_metric("test_recall_micro", report_test_dict["micro avg"]["recall"])
+                    mlflow.log_metric("test_f1_micro", report_test_dict["micro avg"]["f1-score"])
+
+                # Per-class metrics
+                for label, metrics in report_test_dict.items():
+                    if label.isdigit():
+                        mlflow.log_metric(f"test_precision_class_{label}", metrics["precision"])
+                        mlflow.log_metric(f"test_recall_class_{label}", metrics["recall"])
+                        mlflow.log_metric(f"test_f1_class_{label}", metrics["f1-score"])
+
+                # Store metrics in classifier_results
+                classifier_results["test"] = {
+                    "accuracy": report_test_dict["accuracy"],
+                    "precision_macro": report_test_dict["macro avg"]["precision"],
+                    "recall_macro": report_test_dict["macro avg"]["recall"],
+                    "f1_macro": report_test_dict["macro avg"]["f1-score"],
+                    "precision_micro": report_test_dict["micro avg"]["precision"] if "micro avg" in report_test_dict else None,
+                    "recall_micro": report_test_dict["micro avg"]["recall"] if "micro avg" in report_test_dict else None,
+                    "f1_micro": report_test_dict["micro avg"]["f1-score"] if "micro avg" in report_test_dict else None
                 }
 
-                test_metrics_micro = {
-                    "precision_micro": precision_score(y_test, y_pred_test, average="micro"),
-                    "recall_micro": recall_score(y_test, y_pred_test, average="micro"),
-                    "f1_micro": f1_score(y_test, y_pred_test, average="micro")
-                }
-
-                classifier_results["testing_macro"] = test_metrics_macro
-                classifier_results["testing_micro"] = test_metrics_micro
-
-                for metric, value in test_metrics_macro.items():
-                    mlflow.log_metric(f"test_{metric}", value)
-                for metric, value in test_metrics_micro.items():
-                    mlflow.log_metric(f"test_{metric}", value)
-
-                # Log Confusion Matrix for Test Data
+                # Confusion matrix
                 cm = confusion_matrix(y_test, y_pred_test)
-                filename = plot_confusion_matrix(cm, experiment_name)
-                mlflow.log_artifact(filename)
+                cm_filename = plot_confusion_matrix(cm, experiment_name)
+                mlflow.log_artifact(cm_filename)
 
-                # Step 4: Save the Model to MLflow
+                # Log and save model
                 mlflow.sklearn.log_model(
-                    sk_model=model, 
+                    sk_model=model,
                     artifact_path=f"models/{experiment_name}",
-                    registered_model_name=experiment_name 
+                    registered_model_name=experiment_name
                 )
 
-        # End the Testing on Unseen Data Run
-        mlflow.end_run()
+                # End of Test run
+                mlflow.end_run()
 
+        # -----------------------------
+        # 3) Update global_results
+        # -----------------------------
         global_results[experiment_name] = classifier_results
         print("Done")
