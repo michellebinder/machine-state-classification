@@ -1,0 +1,22 @@
+{
+    "Multilayer_Perceptron_Imbalanced": {
+        "validation": {
+            "accuracy": 0.886131810703571,
+            "precision_macro": 0.7745490925605975,
+            "recall_macro": 0.743203569368844,
+            "f1_macro": 0.755307867700148,
+            "precision_micro": null,
+            "recall_micro": null,
+            "f1_micro": null
+        },
+        "test": {
+            "accuracy": 0.7376899413659261,
+            "precision_macro": 0.5999093861352544,
+            "recall_macro": 0.48349359664272756,
+            "f1_macro": 0.4067861645923556,
+            "precision_micro": null,
+            "recall_micro": null,
+            "f1_micro": null
+        }
+    }
+}
