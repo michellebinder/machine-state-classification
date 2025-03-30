@@ -32,6 +32,7 @@ The repository consists of the following four main components:
   - **[Random Forest](modeling/random_forest)**.
   - **[Multi-Layer Perceptron](modeling/multi_layer_perceptron)**.
   - **[Stochastic Gradient Descent](modeling/stochastic_gradient_descent)**.
+  - **[ExtraTrees Classifier (Final Model)](modeling/extra_trees_classifier)**.
 
 ---
 
